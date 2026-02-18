@@ -1,9 +1,142 @@
-import Aside from "@/components/Aside";
+"use client";
 
-export default function page() {
+import Image from "react";
+import { useState } from "react";
+import Aside from "@/components/Aside";
+import { FaChevronDown, FaChevronUp, FaBoxOpen } from "react-icons/fa";
+
+// Componente para cada item da lista
+function ProductItem({ product }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div>
+    <div className="border-b border-gray-200 last:border-none">
+      {/* Linha Principal do Produto */}
+      <div className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+        <div className="flex items-center gap-4 flex-1">
+          <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+            {product.image ? (
+              <Image
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                <FaBoxOpen />
+              </div>
+            )}
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-800">{product.name}</h3>
+            <p className="text-sm text-gray-500">EAN: {product.barcode}</p>
+          </div>
+          <p className="text-sm text-gray-600 truncate max-w-xs ml-8">
+            {product.description}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button className="bg-black text-white px-4 py-1.5 rounded-xl text-sm hover:bg-gray-800 transition-colors">
+            Associar Fornecedores
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 text-gray-500 hover:bg-gray-200 rounded-full transition-colors"
+          >
+            {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+          </button>
+        </div>
+      </div>
+
+      {/* Lista Retrátil de Fornecedores */}
+      {isOpen && (
+        <div className="bg-gray-50 p-4 border-t border-gray-100 animate-in slide-in-from-top-2 duration-200">
+          <h4 className="text-xs font-bold uppercase text-gray-400 mb-3 ml-4">
+            Fornecedores Associados
+          </h4>
+          {product.suppliers.length > 0 ? (
+            <ul className="space-y-2">
+              {product.suppliers.map((sup, index) => (
+                <li
+                  key={index}
+                  className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-200 ml-4 shadow-sm"
+                >
+                  <span className="font-medium text-gray-700">{sup.name}</span>
+                  <span className="text-sm text-gray-500">{sup.cnpj}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-400 italic ml-4">
+              Nenhum fornecedor vinculado a este produto.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function Page() {
+  // Exemplo de dados (isso viria do seu estado ou API)
+  const [products] = useState([
+    {
+      name: "Mouse Gamer RGB",
+      barcode: "7891234567890",
+      description: "Mouse óptico de alta precisão com 12000 DPI",
+      image: "",
+      suppliers: [
+        { name: "Tech Distribuidora", cnpj: "12.345.678/0001-90" },
+        { name: "Import Express", cnpj: "98.765.432/0001-00" },
+      ],
+    },
+  ]);
+
+  return (
+    <div className="flex h-screen w-full bg-gray-100 text-gray-900">
       <Aside />
+      <main className="flex-1 py-6 px-10 overflow-y-auto">
+        <nav className="flex w-full justify-between items-center mb-8">
+          <div>
+            <h1 className="text-2xl font-bold italic tracking-tight text-gray-800">
+              Associações Produto/Fornecedores
+            </h1>
+            <p className="text-gray-500">Gerencie a fonte de seus produtos</p>
+          </div>
+        </nav>
+
+        <section>
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="border-b-4 border-emerald-500 p-6 bg-white rounded-t-xl shadow-sm">
+              <p className="text-gray-500 text-sm font-medium">
+                Produtos Associados
+              </p>
+              <h2 className="text-4xl text-emerald-500 font-bold mt-1">1</h2>
+            </div>
+            <div className="border-b-4 border-yellow-500 p-6 bg-white rounded-t-xl shadow-sm">
+              <p className="text-gray-500 text-sm font-medium">
+                Produtos sem Associação
+              </p>
+              <h2 className="text-4xl text-yellow-500 font-bold mt-1">0</h2>
+            </div>
+          </div>
+
+          <div className="w-full border border-gray-200 rounded-xl shadow-md bg-white overflow-hidden">
+            {/* Cabeçalho "Falso" da Tabela */}
+            <div className="bg-gray-50 border-b border-gray-200 px-6 py-3 flex text-xs font-bold uppercase text-gray-500">
+              <span className="flex-1">Detalhes do Produto</span>
+              <span className="w-48 text-right">Ações</span>
+            </div>
+
+            <div className="flex flex-col">
+              {products.map((p, i) => (
+                <ProductItem key={i} product={p} />
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default function Page() {
             </div>
           </div>
           <div className="w-full border-2 border-[#ddd] rounded-xl p-8 shadow-xl bg-white">
-            {/* Lista de Fornecedores */}
+            {/* Tabela de Fornecedores */}
             <table className="w-full">
               <thead>
                 <tr className="text-gray-500 border-b border-gray-400">
