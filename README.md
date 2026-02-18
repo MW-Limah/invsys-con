@@ -1,2 +1,3 @@
 FACULDADE GRAN (https://faculdade.grancursosonline.com.br/)
-Projeto Disciplina Projeto Integrador
+
+Projeto na Disciplina Projeto Integrador - Gestão de Estoque
