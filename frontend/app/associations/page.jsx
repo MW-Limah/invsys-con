@@ -4,22 +4,25 @@ import Image from "react";
 import { useState } from "react";
 import Aside from "@/components/Aside";
 import { FaChevronDown, FaChevronUp, FaBoxOpen } from "react-icons/fa";
+import AssociationsModal from "../components/AssociationsModal";
 
 // Componente para cada item da lista
 function ProductItem({ product }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="border-b border-gray-200 last:border-none">
       {/* Linha Principal do Produto */}
       <div className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
         <div className="flex items-center gap-4 flex-1">
-          <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+          <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 relative">
             {product.image ? (
               <Image
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400">
@@ -37,8 +40,11 @@ function ProductItem({ product }) {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="bg-black text-white px-4 py-1.5 rounded-xl text-sm hover:bg-gray-800 transition-colors">
-            Associar Fornecedores
+          <button
+            onClick={() => setIsModalOpen(true)} // AQUI: Abre o modal
+            className="bg-black text-white px-4 py-1.5 rounded-xl text-sm hover:bg-gray-800 transition-colors shadow-md active:scale-95"
+          >
+            Editar Fornecedores
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -62,8 +68,15 @@ function ProductItem({ product }) {
                   key={index}
                   className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-200 ml-4 shadow-sm"
                 >
-                  <span className="font-medium text-gray-700">{sup.name}</span>
-                  <span className="text-sm text-gray-500">{sup.cnpj}</span>
+                  <span className="flex-1 font-medium text-gray-700">
+                    {sup.name}
+                  </span>
+                  <span className="text-sm text-gray-500 font-mono">
+                    {sup.cnpj}
+                  </span>
+                  <button className="ml-6 text-red-500 hover:bg-red-50 px-4 py-2 rounded-xl transition-colors text-sm font-bold">
+                    Desassociar
+                  </button>
                 </li>
               ))}
             </ul>
@@ -74,6 +87,13 @@ function ProductItem({ product }) {
           )}
         </div>
       )}
+
+      {/* MODAL DE ASSOCIAÇÃO - Chamado aqui para cada produto */}
+      <AssociationsModal
+        show={isModalOpen}
+        setShow={setIsModalOpen}
+        product={product}
+      />
     </div>
   );
 }
@@ -99,7 +119,7 @@ export default function Page() {
       <main className="flex-1 py-6 px-10 overflow-y-auto">
         <nav className="flex w-full justify-between items-center mb-8">
           <div>
-            <h1 className="text-2xl font-bold italic tracking-tight text-gray-800">
+            <h1 className="text-2xl font-bold  tracking-tight text-gray-800">
               Associações Produto/Fornecedores
             </h1>
             <p className="text-gray-500">Gerencie a fonte de seus produtos</p>
