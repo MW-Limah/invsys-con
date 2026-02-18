@@ -5,15 +5,18 @@ export default function SuppliersModal({ show, setShow }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="fixed flex flex-col gap-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-xl shadow-lg w-[600px] h-[600px] border-2 border-[#ddd]">
-        <button
-          onClick={() => {
-            setShow(false);
-          }}
-          className="self-end text-2xl text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
-        >
-          <MdClose />
-        </button>
+      <div className="fixed flex flex-col gap-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-xl shadow-lg w-[600px] h-auto border-2 border-[#ddd]">
+        <div className="flex justify-between mb-2">
+          <h2 className="text-xl">Cadastro de Fornecedor</h2>
+          <button
+            onClick={() => {
+              setShow(false);
+            }}
+            className="self-end text-2xl text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
+          >
+            <MdClose />
+          </button>
+        </div>
         <form className="flex flex-col gap-4">
           <input
             className="border-1 p-2 rounded-md border-[#ccc]"
