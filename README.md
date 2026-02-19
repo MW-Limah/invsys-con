@@ -29,12 +29,13 @@ Banco de dados
 | Column          | Type                                |
 | --------------- | ----------------------------------- |
 | id              | SERIAL (PK)                         |
-| name            | VARCHAR(150) NOT NULL               |
-| cod_ean         | VARCHAR(20) UNIQUE                  |
-| description     | TEXT                                |
-| category        | TEXT                                |
+| name            | TEXT NOT NULL                       |
+| cod_bar         | TEXT NOT NULL                       |
+| description     | TEXT NOT NULL                       |
+| quantity        | INT                                 |
+| category        | TEXT NOT NULL                       |
 | expiration_date | DATE                                |
-| active          | BOOLEAN DEFAULT TRUE                |
+| image           | BLOB                                |
 | created_at      | TIMESTAMP DEFAULT CURRENT_TIMESTAMP |
 | updated_at      | TIMESTAMP DEFAULT CURRENT_TIMESTAMP |
 
