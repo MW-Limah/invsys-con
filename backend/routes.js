@@ -9,4 +9,6 @@ routes.post("/products", ProductController.store);
 
 routes.delete("/products/:id", ProductController.destroy);
 
+routes.put("/products/:id", ProductController.update);
+
 module.exports = routes;

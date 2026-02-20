@@ -10,6 +10,14 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]); // 2. Estado para armazenar os produtos
 
+  /* Atualizar um produto */
+  const [editingProduct, setEditingProduct] = useState(null);
+
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+    setIsModalOpen(true);
+  };
+
   // 3. Função para buscar os dados do backend
   const fetchProducts = async () => {
     try {
@@ -67,7 +75,6 @@ export default function Page() {
             + Produto
           </button>
         </nav>
-
         <section>
           <div className="flex gap-6 mb-8 shadow-md">
             <div className="w-full border-b-4 border-black py-8 px-6 bg-white shadow-sm rounded-t-xl">
@@ -154,7 +161,12 @@ export default function Page() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-3">
-                        <button className="bg-black text-white px-4 py-1.5 rounded-xl text-xs font-medium hover:bg-gray-800 transition-all active:scale-95 shadow-sm">
+                        <button
+                          onClick={() => {
+                            handleEdit(product);
+                          }}
+                          className="bg-black text-white px-4 py-1.5 rounded-xl text-xs font-medium hover:bg-gray-800 transition-all active:scale-95 shadow-sm"
+                        >
                           Editar
                         </button>
                         <button
@@ -176,6 +188,8 @@ export default function Page() {
           show={isModalOpen}
           setShow={setIsModalOpen}
           onProductAdded={fetchProducts}
+          editingProduct={editingProduct} // PASSE ISSO
+          setEditingProduct={setEditingProduct} // PASSE ISSO TAMBÉM
         />
       </main>
     </div>

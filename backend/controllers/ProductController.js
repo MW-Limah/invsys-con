@@ -62,6 +62,53 @@ const ProductController = {
       res.json({ message: "Produto deletado com sucesso", id });
     });
   },
+
+  // Atualizar items
+
+  async update(req, res) {
+    const { id } = req.params;
+    const {
+      name,
+      cod_bar,
+      description,
+      quantity,
+      category,
+      expiration_date,
+      image,
+    } = req.body;
+
+    const sql = `UPDATE products SET 
+                  name = ?, 
+                  cod_bar = ?, 
+                  description = ?, 
+                  quantity = ?, 
+                  category = ?, 
+                  expiration_date = ?, 
+                  image = ? 
+                WHERE id = ?`;
+
+    db.run(
+      sql,
+      [
+        name,
+        cod_bar,
+        description,
+        quantity,
+        category,
+        expiration_date,
+        image,
+        id,
+      ],
+      function (err) {
+        if (err) return res.status(400).json({ error: err.message });
+        if (this.changes === 0) {
+          return res.status(404).json({ message: "Produto não encontrado" });
+        }
+
+        res.json({ message: "Produto atualizado com sucesso!" });
+      },
+    );
+  },
 };
 
 module.exports = ProductController;

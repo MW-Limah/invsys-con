@@ -1,8 +1,17 @@
+"use client";
+
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
+import { useEffect } from "react";
 
 /* Passe parametros props como objeto */
-export default function ProductsModal({ show, setShow }) {
+export default function ProductsModal({
+  show,
+  setShow,
+  onProductAdded,
+  editingProduct,
+  setEditingProduct,
+}) {
   const [category, setCategory] = useState("");
 
   // 1. Implementando método POST pelo Frontend, Estados para campo
@@ -18,37 +27,63 @@ export default function ProductsModal({ show, setShow }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // 2. Efeito para carregar os dados no formulário quando for edição
+  useEffect(() => {
+    if (editingProduct) {
+      setFormData(editingProduct);
+    } else {
+      // Reseta o formulário se for um novo produto
+      setFormData({
+        name: "",
+        cod_bar: "",
+        description: "",
+        quantity: "",
+        category: "",
+        expiration_date: "",
+        image: "",
+      });
+    }
+  }, [editingProduct, show]);
+
   if (!show) return null;
 
-  // 2. Função para enviar dados
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
+
+    // 3. Agora 'editingProduct' existe aqui via props!
+    const isEditing = !!editingProduct;
+    const url = isEditing
+      ? `http://localhost:3001/products/${editingProduct.id}`
+      : `http://localhost:3001/products`;
+
+    const method = isEditing ? "PUT" : "POST";
 
     try {
-      const response = await fetch("http://localhost:3001/products", {
-        method: "POST",
+      const response = await fetch(url, {
+        method: method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        setMessage("Produto cadastrado com sucesso!");
-        setTimeout(() => setShow(false), 2000); // fecha modal após sucesso
-      } else {
-        setMessage(`Erro: ${data.error}`);
+        alert(isEditing ? "Atualizado!" : "Criado!");
+        onProductAdded();
+        handleClose(); // Função para fechar e limpar
       }
     } catch (error) {
-      setMessage("Erro ao conectar com o servidor.");
+      console.error("Erro na operação:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // 3. Helper para atualizar o objeto de estado
+  // Função para fechar e resetar o estado de edição
+  const handleClose = () => {
+    setEditingProduct(null);
+    setShow(false);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
