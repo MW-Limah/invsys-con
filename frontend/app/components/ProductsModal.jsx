@@ -53,7 +53,6 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
 
   if (!show) return null;
 
-  // ✅ Submit
   // ✅ Submit Corrigido para Multipart/Form-Data
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,6 +77,10 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
     // 3. Adicionamos a imagem se ela existir
     if (selectedFile) {
       data.append("image", selectedFile); // Corrigido de 'appped' para 'append'
+    } else if (editingProduct && formData.image) {
+      // Se está editando e não selecionou nenhum novo arquivo (imagem)
+      // envie o nome da imagem atual (string) para o backend manter a mesma
+      data.append("image", formData.image);
     }
 
     const isEditing = !!editingProduct;
