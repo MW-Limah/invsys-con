@@ -1,5 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database.db");
+db.run("PRAGMA foreign_keys = ON");
 
 /* Criar tabela para produtos */
 
@@ -34,6 +35,32 @@ db.serialize(() => {
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
+});
+
+/* Criar tabela de relações produtos/fornecedores */
+
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS products_suppliers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+      product_id INTEGER NOT NULL,
+      supplier_id INTEGER NOT NULL,
+
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+      UNIQUE (product_id, supplier_id),
+
+      FOREIGN KEY (product_id) REFERENCES products(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+
+      FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    )
+  `);
 });
 
 module.exports = db;
