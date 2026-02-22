@@ -18,12 +18,7 @@ function ProductItem({ product }) {
         <div className="flex items-center gap-4 flex-1">
           <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0 relative">
             {product.image ? (
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
+              <Image src={product.image} alt={product.name} fill className="object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400">
                 <FaBoxOpen />
@@ -34,9 +29,7 @@ function ProductItem({ product }) {
             <h3 className="font-bold text-gray-800">{product.name}</h3>
             <p className="text-sm text-gray-500">EAN: {product.barcode}</p>
           </div>
-          <p className="text-sm text-gray-600 truncate max-w-xs ml-8">
-            {product.description}
-          </p>
+          <p className="text-sm text-gray-600 truncate max-w-xs ml-8">{product.description}</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -46,10 +39,7 @@ function ProductItem({ product }) {
           >
             Editar Fornecedores
           </button>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 text-gray-500 hover:bg-gray-200 rounded-full transition-colors"
-          >
+          <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-500 hover:bg-gray-200 rounded-full transition-colors">
             {isOpen ? <FaChevronUp /> : <FaChevronDown />}
           </button>
         </div>
@@ -58,22 +48,13 @@ function ProductItem({ product }) {
       {/* Lista Retrátil de Fornecedores */}
       {isOpen && (
         <div className="bg-gray-50 p-4 border-t border-gray-100 animate-in slide-in-from-top-2 duration-200">
-          <h4 className="text-xs font-bold uppercase text-gray-400 mb-3 ml-4">
-            Fornecedores Associados
-          </h4>
+          <h4 className="text-xs font-bold uppercase text-gray-400 mb-3 ml-4">Fornecedores Associados</h4>
           {product.suppliers.length > 0 ? (
             <ul className="space-y-2">
               {product.suppliers.map((sup, index) => (
-                <li
-                  key={index}
-                  className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-200 ml-4 shadow-sm"
-                >
-                  <span className="flex-1 font-medium text-gray-700">
-                    {sup.name}
-                  </span>
-                  <span className="text-sm text-gray-500 font-mono">
-                    {sup.cnpj}
-                  </span>
+                <li key={index} className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-200 ml-4 shadow-sm">
+                  <span className="flex-1 font-medium text-gray-700">{sup.name}</span>
+                  <span className="text-sm text-gray-500 font-mono">{sup.cnpj}</span>
                   <button className="border-1 bg-red-500 ml-6 text-white hover:bg-red-50 hover:text-red-500 px-4 py-2 rounded-xl transition-colors text-sm font-bold">
                     Desassociar
                   </button>
@@ -81,19 +62,13 @@ function ProductItem({ product }) {
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-gray-400 italic ml-4">
-              Nenhum fornecedor vinculado a este produto.
-            </p>
+            <p className="text-sm text-gray-400 italic ml-4">Nenhum fornecedor vinculado a este produto.</p>
           )}
         </div>
       )}
 
       {/* MODAL DE ASSOCIAÇÃO - Chamado aqui para cada produto */}
-      <AssociationsModal
-        show={isModalOpen}
-        setShow={setIsModalOpen}
-        product={product}
-      />
+      <AssociationsModal show={isModalOpen} setShow={setIsModalOpen} product={product} />
     </div>
   );
 }
@@ -119,25 +94,19 @@ export default function Page() {
       <main className="flex-1 py-6 px-10 overflow-y-auto">
         <nav className="flex w-full justify-between items-center mb-8">
           <div>
-            <h1 className="text-2xl font-bold  tracking-tight text-gray-800">
-              Associações Produto/Fornecedores
-            </h1>
-            <p className="text-gray-500">Gerencie a fonte de seus produtos</p>
+            <h1 className="text-2xl font-bold  tracking-tight text-gray-800">Associações</h1>
+            <p className="text-gray-500">Associe seus produtos aos fornecedores.</p>
           </div>
         </nav>
 
         <section>
           <div className="grid grid-cols-2 gap-6 mb-8">
             <div className="border-b-4 border-emerald-500 py-8 px-6 bg-white rounded-t-xl shadow-sm">
-              <p className="text-gray-500 text-sm font-medium">
-                Produtos Associados
-              </p>
+              <p className="text-gray-500 text-sm font-medium">Produtos Associados</p>
               <h2 className="text-3xl text-emerald-500 font-bold mt-1">1</h2>
             </div>
             <div className="border-b-4 border-yellow-500 p-6 bg-white rounded-t-xl shadow-sm">
-              <p className="text-gray-500 text-sm font-medium">
-                Produtos sem Associação
-              </p>
+              <p className="text-gray-500 text-sm font-medium">Produtos sem Associação</p>
               <h2 className="text-3xl text-yellow-500 font-bold mt-1">0</h2>
             </div>
           </div>
