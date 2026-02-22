@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "react";
+import Image from "next/image";
 import { useState } from "react";
 import Aside from "@/components/Aside";
 import { FaChevronDown, FaChevronUp, FaBoxOpen } from "react-icons/fa";

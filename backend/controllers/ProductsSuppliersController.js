@@ -102,6 +102,54 @@ const ProductsSuppliersController = {
       res.json(rows);
     });
   },
+
+  // GET /products-with-suppliers
+  indexWithSuppliers(req, res) {
+    const sql = `
+    SELECT 
+      p.id,
+      p.name,
+      p.cod_bar,
+      p.description,
+      p.image,
+      s.id AS supplier_id,
+      s.name_enterprise,
+      s.cnpj
+      FROM products p
+      LEFT JOIN products_suppliers ps ON ps.product_id = p.id
+      LEFT JOIN suppliers s ON s.id = ps.supplier_id
+    ORDER BY p.name;`;
+
+    db.all(sql, [], (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+
+      // Agrupar produtos
+      const productsMap = {};
+
+      rows.forEach((row) => {
+        if (!productsMap[row.id]) {
+          productsMap[row.id] = {
+            id: row.id,
+            name: row.name,
+            cod_bar: row.cod_bar,
+            description: row.description,
+            image: row.image,
+            suppliers: [],
+          };
+        }
+
+        if (row.supplier_id) {
+          productsMap[row.id].suppliers.push({
+            id: row.supplier_id,
+            name: row.name_enterprise,
+            cnpj: row.cnpj,
+          });
+        }
+      });
+
+      res.json(Object.values(productsMap));
+    });
+  },
 };
 
 module.exports = ProductsSuppliersController;
