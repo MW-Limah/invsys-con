@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome, FaTruckLoading, FaBoxes } from "react-icons/fa";
@@ -18,9 +19,11 @@ export default function Aside() {
 
   return (
     <aside className="flex px-4 py-2 flex-col h-screen w-[20rem] bg-white text-[#2d2d2d] border-r border-[#999]">
-      <h1 className="mt-4 pb-2 text-2xl border-b border-[#999]">Invsys Controller</h1>
+      <h2 className="text-4xl border-b-2 border-[#ddd] mb-5 pb-3">
+        <Image className="py-4" src={"/logo.png"} width={200} height={100} alt="logo" />
+      </h2>
 
-      <ul className="flex flex-col gap-[10px] py-4 px-2 text-xl">
+      <ul className="flex flex-col gap-2 py-2 text-xl">
         {pages.map((page) => {
           const isActive = pathname === page.page;
 

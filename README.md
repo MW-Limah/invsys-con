@@ -2,11 +2,11 @@
 
 #### Projeto na Disciplina Projeto Integrador - Gestão de Estoque
 
-### InvsysCo
+### OptiGest
 
 - Frontend baseado em React.js no framework Next.js
-- Backend baseado em Nest.js
-- Banco de dados pelo Supabase (PostgreSQL)
+- Backend baseado em Express
+- Banco de dados em SQLite
 
 Controladores
 
