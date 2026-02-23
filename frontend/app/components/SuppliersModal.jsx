@@ -39,25 +39,41 @@ export default function SuppliersModal({ show, setShow, onSupplierAdded, editing
 
   if (!show) return null;
 
-  // ✅ Função de máscara integrada ao handlechange
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const numericValue = value.replace(/\D/g, ""); // Remover tudo que não é número
+
+    let maskedValue = value;
 
     if (name === "cnpj") {
-      const numericValue = value.replace(/\D/g, ""); // Remove letras
-
-      // Aplica a máscara progressivamente conforme o usuário digita
-      const maskedValue = numericValue
+      /* 00.000.000/0000-00 */
+      maskedValue = numericValue
         .replace(/^(\d{2})(\d)/, "$1.$2")
         .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
         .replace(/\.(\d{3})(\d)/, ".$1/$2")
         .replace(/(\d{4})(\d)/, "$1-$2")
-        .replace(/(-\d{2})\d+?$/, "$1"); // Limita a 14 números (18 caracteres com máscara)
+        .replace(/(-\d{2})\d+?$/, "$1"); // Limitar a 18 digitos
+    } else if (name === "phone") {
+      /* (00) 00000-0000 */
+      maskedValue = numericValue
+        .replace(/^(\d{2})(\d)/g, "($1) $2") // Coloca parênteses no DDD
+        .replace(/(\d{5})(\d)/, "$1-$2") // Coloca o hífen após o 5º dígito
+        .replace(/(-\d{4})\d+?$/, "$1"); // Limitar a 11 digitos
+    } else if (name === "email") {
+      /* email@gmail.com */
+      // no caso, letras e numeros separados por letras + ponto + letras
+      maskedValue = value
+        .toLowerCase()
+        .replace(/\s/g, "")
+        .replace(/[^a-z0-9._\-@+]/g, "");
 
-      setFormData((prev) => ({ ...prev, [name]: maskedValue }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      // Impedir mais de um @
+      const parts = maskedValue.split("@");
+      if (parts.length > 2) {
+        maskedValue = parts[0] + "@" + parts.slice(1).join("");
+      }
     }
+    setFormData((prev) => ({ ...prev, [name]: maskedValue }));
   };
 
   const handleSubmit = async (e) => {
