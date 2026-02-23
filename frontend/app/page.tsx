@@ -43,7 +43,7 @@ export default function Home() {
       <Aside />
 
       <main className="flex-1 py-6 px-10 overflow-y-auto">
-        <h1 className="text-3xl font-bold">Bem-vindo ao Optigest</h1>
+        <h1 className="text-3xl mb-1 font-bold">Bem-vindo ao OptiGest</h1>
         <p className="text-xl">Sistema de Gestão de Estoque</p>
         <div className="mt-4 grid grid-cols-3 gap-4">
           <div className="col-span-2 flex flex-col gap-4">
