@@ -37,7 +37,7 @@ routes.get("/products-suppliers", ProductsSuppliersController.index);
 routes.get("/products/:product_id/suppliers", ProductsSuppliersController.suppliersByProduct);
 routes.get("/suppliers/:supplier_id/products", ProductsSuppliersController.productsBySupplier);
 
-// ⭐ ESSENCIAL para sua tela
+// ⭐ ESSENCIAL para a tela de Associações
 routes.get("/products-with-suppliers", ProductsSuppliersController.indexWithSuppliers);
 
 module.exports = routes;
