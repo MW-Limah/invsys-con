@@ -84,7 +84,7 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
     }
 
     const isEditing = !!editingProduct;
-    const url = isEditing ? `http://localhost:3001/products/${editingProduct.id}` : `http://localhost:3001/products`;
+    const url = isEditing ? `/api/products/${editingProduct.id}` : `/api/products`;
 
     const method = isEditing ? "PUT" : "POST";
 

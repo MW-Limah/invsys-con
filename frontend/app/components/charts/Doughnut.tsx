@@ -30,7 +30,7 @@ export default function DoughnutChart({ options = defaultOptions }) {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3001/products-with-suppliers");
+      const response = await fetch("/api/products-with-suppliers");
       const data = await response.json();
       setProducts(data);
     } catch (error) {

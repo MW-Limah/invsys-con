@@ -12,7 +12,7 @@ export default function Page() {
 
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/suppliers");
+      const response = await fetch("/api/suppliers");
       const data = await response.json();
       setSuppliers(data);
     } catch (error) {
@@ -28,7 +28,7 @@ export default function Page() {
   const handleDelete = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir esse fornecedor?")) return;
     try {
-      const response = await fetch(`http://localhost:3001/suppliers/${id}`, {
+      const response = await fetch(`/api/suppliers/${id}`, {
         method: "DELETE",
       });
 

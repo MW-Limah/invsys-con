@@ -82,7 +82,7 @@ export default function SuppliersModal({ show, setShow, onSupplierAdded, editing
     setMessage("");
 
     const isEditing = !!editingSuppliers;
-    const url = isEditing ? `http://localhost:3001/suppliers/${editingSuppliers.id}` : `http://localhost:3001/suppliers`;
+    const url = isEditing ? `/api/suppliers/${editingSuppliers.id}` : `/api/suppliers`;
     const method = isEditing ? "PUT" : "POST";
 
     try {

@@ -15,7 +15,7 @@ function ProductItem({ product, refresh }) {
     if (!window.confirm("Desassociar fornecedor deste produto?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/products-suppliers/${product.id}/${supplier_id}`, { method: "DELETE" });
+      const response = await fetch(`/api/products-suppliers/${product.id}/${supplier_id}`, { method: "DELETE" });
 
       if (response.ok) {
         refresh(); // 🔁 recarrega lista do banco
@@ -34,7 +34,7 @@ function ProductItem({ product, refresh }) {
         <div className="flex items-center gap-4 flex-1">
           <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden relative">
             {product.image ? (
-              <Image src={`http://localhost:3001/uploads/${product.image}`} alt={product.name} fill className="object-cover" />
+              <Image src={`/uploads/${product.image}`} alt={product.name} fill className="object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400">
                 <Image src={"/placeholder.jpg"} width={100} height={100} alt="Placeholder" />
@@ -95,7 +95,7 @@ export default function Page() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3001/products-with-suppliers");
+      const response = await fetch("/api/products-with-suppliers");
       const data = await response.json();
       setProducts(data);
     } catch (error) {

@@ -10,7 +10,7 @@ export default function Home() {
 
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/suppliers");
+      const response = await fetch("/api/suppliers");
       const data = await response.json();
       setSuppliers(data);
     } catch (error) {
@@ -20,7 +20,7 @@ export default function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3001/products");
+      const response = await fetch("/api/products");
       const data = await response.json();
       setProducts(data);
     } catch (error) {

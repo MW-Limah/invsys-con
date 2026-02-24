@@ -21,7 +21,7 @@ export default function Page() {
   // 3. Função para buscar os dados do backend
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3001/products");
+      const response = await fetch("/api/products");
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -41,7 +41,7 @@ export default function Page() {
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
 
     try {
-      const response = await fetch(`http://localhost:3001/products/${id}`, {
+      const response = await fetch(`/api/products/${id}`, {
         method: "DELETE",
       });
 
@@ -109,7 +109,7 @@ export default function Page() {
                     <td className="px-6 py-4 text-gray-500">{product.expiration_date || "-"}</td>
                     <td className="px-6 py-4">
                       <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200">
-                        <Image src={product.image ? `http://localhost:3001/uploads/${product.image}` : "/placeholder.jpg"} alt={product.name} fill className="object-cover" />
+                        <Image src={product.image ? `/uploads/${product.image}` : "/placeholder.jpg"} alt={product.name} fill className="object-cover" />
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">

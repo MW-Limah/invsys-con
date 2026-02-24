@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Esta opção permite que o Next.js busque imagens de IPs locais
     remotePatterns: [
       {
         protocol: "http",
@@ -11,8 +10,19 @@ const nextConfig: NextConfig = {
         pathname: "/uploads/**",
       },
     ],
-    // Tente adicionar isto se o erro persistir em ambiente de desenvolvimento
     unoptimized: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "http://localhost:3001/:path*",
+      },
+      {
+        source: "/uploads/:path*",
+        destination: "http://localhost:3001/uploads/:path*",
+      },
+    ];
   },
 };
 

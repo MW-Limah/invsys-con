@@ -12,7 +12,7 @@ export default function AssociationsModal({ show, setShow, product, refresh }) {
   // 🔄 Buscar fornecedores existentes
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/suppliers");
+      const response = await fetch("/api/suppliers");
       const data = await response.json();
       setSuppliers(data);
     } catch (error) {
@@ -36,7 +36,7 @@ export default function AssociationsModal({ show, setShow, product, refresh }) {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/products-suppliers", {
+      const response = await fetch("/api/products-suppliers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export default function AssociationsModal({ show, setShow, product, refresh }) {
           {/* Produto */}
           <div className="flex gap-4 items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
             <div className="w-16 h-16 relative rounded overflow-hidden ">
-              <Image src={product.image ? `http://localhost:3001/uploads/${product.image}` : "/placeholder.jpg"} fill className="object-cover" alt="Produto" />
+              <Image src={product.image ? `/uploads/${product.image}` : "/placeholder.jpg"} fill className="object-cover" alt="Produto" />
             </div>
             <div>
               <p className="font-bold text-sm">{product.name}</p>
