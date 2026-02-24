@@ -39,5 +39,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["bash", "-c", "cd /home/runner/workspace/backend && node server.js & cd /home/runner/workspace/frontend && npx next start -H 0.0.0.0 -p 5000"]
-build = ["bash", "-c", "cd /home/runner/workspace/frontend && npm run build"]
+run = ["sh", "-c", "(cd backend && node server.js) & (cd frontend && npx next start -H 0.0.0.0 -p 5000)"]
+build = ["sh", "-c", "cd frontend && npm install && npm run build"]
