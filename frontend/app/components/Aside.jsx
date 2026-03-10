@@ -33,8 +33,7 @@ export default function Aside() {
         bg-white text-[#2d2d2d]
 
         border-t md:border-t-0
-        md:border-r border-[#999]
-
+        md:border-r-2 border-[#ddd]
         z-50
       "
     >

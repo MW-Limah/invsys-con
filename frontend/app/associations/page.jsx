@@ -112,7 +112,7 @@ export default function Page() {
   const notAssociatedCount = products.filter((p) => p.suppliers.length === 0).length;
 
   return (
-    <div className="flex h-screen w-full bg-gray-100">
+    <div className="flex h-screen w-full bg-white">
       <Aside />
 
       <main className="flex-1 py-6 px-10 overflow-y-auto">
