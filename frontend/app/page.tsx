@@ -63,18 +63,9 @@ export default function Home() {
           </div>
 
           {/* Chart */}
-          <div className="col-span-1">
-            <div
-              className="
-                py-6 md:py-8 px-5 md:px-6
-                bg-white shadow-lg rounded-xl
-                hover:scale-[1.02]
-                transition-transform duration-300 ease-in-out
-                border-2 border-gray-200
-                h-full
-              "
-            >
-              <p className="text-gray-600 text-sm md:text-md font-medium">Produtos Associados / Não Associados</p>
+          <div className="home-chart col-span-1">
+            <div className="py-8 px-6 bg-white shadow-lg rounded-xl hover:scale-101 transition-transform transition-all duration-200 ease-in-out border-2 border-gray-200 h-full">
+              <p className="text-gray-600 text-md font-medium">Produtos Associados / Não Associados</p>
 
               <div className="mt-4 md:mt-6">
                 <DoughnutChart />
