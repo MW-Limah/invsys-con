@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -24,17 +25,12 @@ export default function Home() {
       const data = await response.json();
       setProducts(data);
     } catch (error) {
-      console.error("Erro ao buscar fornecedores: ", error);
+      console.error("Erro ao buscar produtos: ", error);
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchSuppliers();
-  }, []);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchProducts();
   }, []);
 
@@ -52,9 +48,17 @@ export default function Home() {
               <h2 className="text-3xl font-bold mt-4 text-gray-900">{products.length}</h2>
             </div>
 
-            <div className="py-8 px-6 bg-white shadow-lg rounded-xl hover:scale-101 transition-transform transition-all duration-200 ease-in-out border-2 border-gray-200">
-              <p className="text-gray-600 text-md font-medium">Total de fornecedores</p>
-              <h2 className="text-3xl font-bold mt-4 text-gray-900">{suppliers.length}</h2>
+            <div
+              className="
+                py-6 md:py-8 px-5 md:px-6
+                bg-white shadow-lg rounded-xl
+                hover:scale-[1.02]
+                transition-transform duration-300 ease-in-out
+                border-2 border-gray-200
+              "
+            >
+              <p className="text-gray-600 text-sm md:text-md font-medium">Total de fornecedores</p>
+              <h2 className="text-2xl md:text-3xl font-bold mt-3 text-gray-900">{suppliers.length}</h2>
             </div>
           </div>
 
@@ -62,7 +66,7 @@ export default function Home() {
             <div className="py-8 px-6 bg-white shadow-lg rounded-xl hover:scale-101 transition-transform transition-all duration-200 ease-in-out border-2 border-gray-200 h-full">
               <p className="text-gray-600 text-md font-medium">Produtos Associados / Não Associados</p>
 
-              <div className="mt-6">
+              <div className="mt-4 md:mt-6">
                 <DoughnutChart />
               </div>
             </div>
