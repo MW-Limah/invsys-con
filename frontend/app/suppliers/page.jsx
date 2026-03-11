@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [suppliers, setSuppliers] = useState([]); // Armazenar fornecedores em lista
+  const [suppliers, setSuppliers] = useState([]);
   const [editingSuppliers, setEditingSuppliers] = useState(null);
 
   const fetchSuppliers = async () => {
@@ -33,10 +33,8 @@ export default function Page() {
       });
 
       if (response.ok) {
-        alert("Produto removido!");
-        // DICA: Aqui você deve atualizar seu estado local para
-        // remover o item da tela sem precisar dar F5
-        setSuppliers((prev) => prev.filter((product) => product.id !== id));
+        alert("Fornecedor removido!");
+        setSuppliers((prev) => prev.filter((s) => s.id !== id));
       } else {
         const data = await response.json();
         alert(`Erro: ${data.message}`);
@@ -52,10 +50,10 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="flex h-screen w-full">
+    <div className="page-wrapper flex h-screen w-full">
       <Aside />
       <main className="flex-1 py-6 px-10 overflow-y-auto">
-        <nav className="flex w-full justify-between items-center mb-8">
+        <nav className="page-nav flex w-full justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Fornecedores</h1>
             <p className="text-gray-500">Gerencie seus fornecedores</p>
@@ -65,17 +63,15 @@ export default function Page() {
           </button>
         </nav>
         <section>
-          {/* Quantidade de clientes */}
           <div className="flex gap-6 mb-8 shadow-md">
             <div className="w-full border-b-4 border-black py-8 px-6 bg-white shadow-md rounded-t-xl">
-              <p className="text-gray-500 text-sm font-medium">Total de produtos</p>
+              <p className="text-gray-500 text-sm font-medium">Total de fornecedores</p>
               <h2 className="text-3xl font-bold mt-2 text-gray-900">{suppliers.length}</h2>
             </div>
           </div>
 
-          <div className="w-full border border-gray-200 rounded-2xl shadow-md bg-white overflow-hidden">
-            {/* Tabela de Fornecedores */}
-            <table className="w-full border-collapse">
+          <div className="table-wrapper w-full border border-gray-200 rounded-2xl shadow-md bg-white overflow-hidden">
+            <table className="responsive-table w-full border-collapse">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Nome da Empresa</th>
@@ -90,18 +86,16 @@ export default function Page() {
               <tbody className="divide-y divide-gray-100">
                 {suppliers.map((supplier) => (
                   <tr key={supplier.id} className="group hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 text-gray-900 text-sm max-w-xs truncate">{supplier.name_enterprise}</td>
-                    <td className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{supplier.cnpj}</td>
-                    <td className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{supplier.address}</td>
-                    <td className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{supplier.phone}</td>
-                    <td className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{supplier.email}</td>
-                    <td className="px-6 py-4 text-gray-900 text-sm max-w-xs truncate">{supplier.main_contact}</td>
+                    <td data-label="Empresa" className="px-6 py-4 text-gray-900 text-sm font-medium">{supplier.name_enterprise}</td>
+                    <td data-label="CNPJ" className="px-6 py-4 text-gray-500 text-sm font-mono">{supplier.cnpj}</td>
+                    <td data-label="Endereço" className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{supplier.address}</td>
+                    <td data-label="Telefone" className="px-6 py-4 text-gray-500 text-sm">{supplier.phone}</td>
+                    <td data-label="E-mail" className="px-6 py-4 text-gray-500 text-sm">{supplier.email}</td>
+                    <td data-label="Contato" className="px-6 py-4 text-gray-900 text-sm">{supplier.main_contact}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-3">
                         <button
-                          onClick={() => {
-                            handleEdit(supplier);
-                          }}
+                          onClick={() => handleEdit(supplier)}
                           className="bg-black text-white px-4 py-1.5 rounded-xl text-xs font-medium hover:bg-gray-800 transition-all active:scale-95 shadow-sm"
                         >
                           Editar dados

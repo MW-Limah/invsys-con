@@ -64,7 +64,7 @@ export default function AssociationsModal({ show, setShow, product, refresh }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative flex flex-col gap-4 bg-white p-8 rounded-xl shadow-lg w-[500px] border-2 border-[#ddd]">
+      <div className="modal-box relative flex flex-col gap-4 bg-white p-8 rounded-xl shadow-lg w-[500px] border-2 border-[#ddd]">
         {/* Header */}
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-xl font-bold">Associar Fornecedor</h2>

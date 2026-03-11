@@ -18,7 +18,7 @@ function ProductItem({ product, refresh }) {
       const response = await fetch(`/api/products-suppliers/${product.id}/${supplier_id}`, { method: "DELETE" });
 
       if (response.ok) {
-        refresh(); // 🔁 recarrega lista do banco
+        refresh();
       } else {
         const data = await response.json();
         alert(data.message || "Erro ao desassociar");
@@ -30,9 +30,9 @@ function ProductItem({ product, refresh }) {
 
   return (
     <div className="border-b border-gray-200 last:border-none">
-      <div className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
-        <div className="flex items-center gap-4 flex-1">
-          <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden relative">
+      <div className="product-item-row flex items-center justify-between p-4 hover:bg-gray-50 transition-colors">
+        <div className="product-item-info flex items-center gap-4 flex-1">
+          <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden relative flex-shrink-0">
             {product.image ? (
               <Image src={`/uploads/${product.image}`} alt={product.name} fill className="object-cover" />
             ) : (
@@ -47,15 +47,15 @@ function ProductItem({ product, refresh }) {
             <p className="text-sm text-gray-500 font-mono">EAN: {product.cod_bar}</p>
           </div>
 
-          <p className="text-sm text-gray-600 truncate max-w-xs ml-8">{product.description}</p>
+          <p className="product-item-desc text-sm text-gray-600 truncate max-w-xs ml-8">{product.description}</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <button onClick={() => setIsModalOpen(true)} className="bg-black text-white px-4 py-1.5 rounded-xl text-sm hover:bg-gray-800 transition-colors">
+        <div className="product-item-actions flex items-center gap-4">
+          <button onClick={() => setIsModalOpen(true)} className="bg-black text-white px-4 py-1.5 rounded-xl text-sm hover:bg-gray-800 transition-colors whitespace-nowrap">
             Editar Fornecedores
           </button>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-500 hover:bg-gray-200 rounded-full">
+          <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-500 hover:bg-gray-200 rounded-full flex-shrink-0">
             {isOpen ? <FaChevronUp /> : <FaChevronDown />}
           </button>
         </div>
@@ -66,14 +66,12 @@ function ProductItem({ product, refresh }) {
           <h4 className="text-xs font-bold uppercase text-gray-400 mb-3 ml-4">Fornecedores Associados</h4>
 
           {product.suppliers.length > 0 ? (
-            <ul className="space-y-2">
+            <ul className="space-y-2 px-4">
               {product.suppliers.map((sup) => (
-                <li key={sup.id} className="flex justify-between items-center bg-white py-2 px-4 rounded-lg ml-4 border border-[#ddd] shadow-md">
-                  <span className="flex-1 font-medium text-gray-700">{sup.name}</span>
-
-                  <span className="text-sm text-gray-500 font-mono">{sup.cnpj}</span>
-
-                  <button onClick={() => handleUnlink(sup.id)} className="bg-red-500 ml-6 text-white px-4 py-2 rounded-xl hover:bg-red-600 text-sm font-bold">
+                <li key={sup.id} className="supplier-row flex justify-between items-center bg-white py-2 px-4 rounded-lg border border-[#ddd] shadow-md">
+                  <span className="flex-1 font-medium text-gray-700 mr-2">{sup.name}</span>
+                  <span className="text-sm text-gray-500 font-mono mr-2">{sup.cnpj}</span>
+                  <button onClick={() => handleUnlink(sup.id)} className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 text-sm font-bold flex-shrink-0">
                     Desassociar
                   </button>
                 </li>
@@ -108,11 +106,10 @@ export default function Page() {
   }, []);
 
   const associatedCount = products.filter((p) => p.suppliers.length > 0).length;
-
   const notAssociatedCount = products.filter((p) => p.suppliers.length === 0).length;
 
   return (
-    <div className="flex h-screen w-full bg-gray-100">
+    <div className="page-wrapper flex h-screen w-full bg-gray-100">
       <Aside />
 
       <main className="flex-1 py-6 px-10 overflow-y-auto">
@@ -121,13 +118,13 @@ export default function Page() {
           <p className="text-gray-500">Associe produtos aos fornecedores</p>
         </nav>
 
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          <div className="border-b-4 border-emerald-500 py-8 px-6 bg-white shadow-sm">
+        <div className="assoc-stats-grid grid grid-cols-2 gap-6 mb-8">
+          <div className="border-b-4 border-emerald-500 py-8 px-6 bg-white shadow-sm rounded-xl">
             <p className="text-gray-500 text-sm">Produtos Associados</p>
             <h2 className="text-3xl text-emerald-500 font-bold">{associatedCount}</h2>
           </div>
 
-          <div className="border-b-4 border-yellow-500 py-8 px-6 bg-white shadow-sm">
+          <div className="border-b-4 border-yellow-500 py-8 px-6 bg-white shadow-sm rounded-xl">
             <p className="text-gray-500 text-sm">Sem Associação</p>
             <h2 className="text-3xl text-yellow-500 font-bold">{notAssociatedCount}</h2>
           </div>

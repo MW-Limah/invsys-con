@@ -4,13 +4,11 @@ import Aside from "@/components/Aside";
 import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import ProductsModal from "../components/ProductsModal";
-import { useState, useEffect } from "react"; // 1. Importe useEffect
+import { useState, useEffect } from "react";
 
 export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [products, setProducts] = useState([]); // 2. Estado para armazenar os produtos
-
-  /* Atualizar um produto */
+  const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
 
   const handleEdit = (product) => {
@@ -18,7 +16,6 @@ export default function Page() {
     setIsModalOpen(true);
   };
 
-  // 3. Função para buscar os dados do backend
   const fetchProducts = async () => {
     try {
       const response = await fetch("/api/products");
@@ -29,13 +26,10 @@ export default function Page() {
     }
   };
 
-  // 4. Executa a busca ao montar o componente
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchProducts();
   }, []);
-
-  // Delete
 
   const handleDelete = async (id) => {
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
@@ -47,8 +41,6 @@ export default function Page() {
 
       if (response.ok) {
         alert("Produto removido!");
-        // DICA: Aqui você deve atualizar seu estado local para
-        // remover o item da tela sem precisar dar F5
         setProducts((prev) => prev.filter((product) => product.id !== id));
       } else {
         const data = await response.json();
@@ -60,10 +52,10 @@ export default function Page() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-gray-50">
+    <div className="page-wrapper flex h-screen w-full bg-gray-50">
       <Aside />
       <main className="flex-1 py-6 px-10 overflow-y-auto">
-        <nav className="flex w-full justify-between items-center mb-8">
+        <nav className="page-nav flex w-full justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Produtos</h1>
             <p className="text-gray-500">Gerencie seus produtos</p>
@@ -76,13 +68,12 @@ export default function Page() {
           <div className="flex gap-6 mb-8 shadow-md">
             <div className="w-full border-b-4 border-black py-8 px-6 bg-white shadow-sm rounded-t-xl">
               <p className="text-gray-500 text-sm font-medium">Total de produtos</p>
-              {/* 5. Contador dinâmico */}
               <h2 className="text-3xl font-bold mt-2 text-gray-900">{products.length}</h2>
             </div>
           </div>
 
-          <div className="w-full border border-gray-200 rounded-2xl shadow-md bg-white overflow-hidden">
-            <table className="w-full border-collapse">
+          <div className="table-wrapper w-full border border-gray-200 rounded-2xl shadow-md bg-white overflow-hidden">
+            <table className="responsive-table w-full border-collapse">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Nome</th>
@@ -96,28 +87,25 @@ export default function Page() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {/* 6. Mapeamento dos produtos vindos do banco */}
                 {products.map((product) => (
                   <tr key={product.id} className="group hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 text-gray-700 font-medium">{product.name}</td>
-                    <td className="px-6 py-4 text-gray-500 font-mono text-sm">{product.cod_bar}</td>
-                    <td className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{product.description}</td>
-                    <td className="px-6 py-4 text-gray-700">{product.quantity}</td>
-                    <td className="px-6 py-4">
+                    <td data-label="Nome" className="px-6 py-4 text-gray-700 font-medium">{product.name}</td>
+                    <td data-label="Código" className="px-6 py-4 text-gray-500 font-mono text-sm">{product.cod_bar}</td>
+                    <td data-label="Descrição" className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{product.description}</td>
+                    <td data-label="Estoque" className="px-6 py-4 text-gray-700">{product.quantity}</td>
+                    <td data-label="Categoria" className="px-6 py-4">
                       <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">{product.category}</span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">{product.expiration_date || "-"}</td>
-                    <td className="px-6 py-4">
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200">
+                    <td data-label="Validade" className="px-6 py-4 text-gray-500">{product.expiration_date || "-"}</td>
+                    <td data-label="Foto" className="px-6 py-4">
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200 ml-auto">
                         <Image src={product.image ? `/uploads/${product.image}` : "/placeholder.jpg"} alt={product.name} fill className="object-cover" />
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-3">
                         <button
-                          onClick={() => {
-                            handleEdit(product);
-                          }}
+                          onClick={() => handleEdit(product)}
                           className="bg-black text-white px-4 py-1.5 rounded-xl text-xs font-medium hover:bg-gray-800 transition-all active:scale-95 shadow-sm"
                         >
                           Editar
@@ -138,8 +126,8 @@ export default function Page() {
           show={isModalOpen}
           setShow={setIsModalOpen}
           onProductAdded={fetchProducts}
-          editingProduct={editingProduct} // PASSE ISSO
-          setEditingProduct={setEditingProduct} // PASSE ISSO TAMBÉM
+          editingProduct={editingProduct}
+          setEditingProduct={setEditingProduct}
         />
       </main>
     </div>
