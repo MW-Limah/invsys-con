@@ -5,6 +5,12 @@ const db = new Database(path.join(__dirname, "..", "database.db"));
 db.pragma("foreign_keys = ON");
 db.pragma("journal_mode = WAL");
 
+try {
+  db.exec(`ALTER TABLE products ADD COLUMN price REAL`);
+} catch (err) {
+  // Evita erro caso a coluna já exista
+}
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -80,6 +80,7 @@ export default function Page() {
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Código</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Descrição</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Estoque</th>
+                  <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Preço/Unidade</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Categoria</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Validade</th>
                   <th className="px-6 py-4 text-xs font-bold uppercase text-gray-500 text-left">Foto</th>
@@ -89,15 +90,28 @@ export default function Page() {
               <tbody className="divide-y divide-gray-100">
                 {products.map((product) => (
                   <tr key={product.id} className="group hover:bg-gray-50 transition-colors">
-                    <td data-label="Nome" className="px-6 py-4 text-gray-700 font-medium">{product.name}</td>
-                    <td data-label="Código" className="px-6 py-4 text-gray-500 font-mono text-sm">{product.cod_bar}</td>
-                    <td data-label="Descrição" className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{product.description}</td>
-                    <td data-label="Estoque" className="px-6 py-4 text-gray-700">{product.quantity}</td>
+                    <td data-label="Nome" className="px-6 py-4 text-gray-700 font-medium">
+                      {product.name}
+                    </td>
+                    <td data-label="Código" className="px-6 py-4 text-gray-500 font-mono text-sm">
+                      {product.cod_bar}
+                    </td>
+                    <td data-label="Descrição" className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">
+                      {product.description}
+                    </td>
+                    <td data-label="Estoque" className="px-6 py-4 text-gray-700">
+                      {product.quantity}
+                    </td>
+                    <td data-label="Preço" className="px-6 py-4 text-gray-700">
+                      {Number(product.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    </td>
                     <td data-label="Categoria" className="px-6 py-4">
                       <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">{product.category}</span>
                     </td>
-                    <td data-label="Validade" className="px-6 py-4 text-gray-500">{product.expiration_date || "-"}</td>
-                    <td data-label="Foto" className="px-6 py-4">
+                    <td data-label="Validade" className="px-6 py-4 text-gray-500">
+                      {product.expiration_date || "-"}
+                    </td>
+                    <td data-label="Foto" className="px-1 py-4">
                       <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200 ml-auto">
                         <Image src={product.image ? `/uploads/${product.image}` : "/placeholder.jpg"} alt={product.name} fill className="object-cover" />
                       </div>
@@ -122,13 +136,7 @@ export default function Page() {
           </div>
         </section>
 
-        <ProductsModal
-          show={isModalOpen}
-          setShow={setIsModalOpen}
-          onProductAdded={fetchProducts}
-          editingProduct={editingProduct}
-          setEditingProduct={setEditingProduct}
-        />
+        <ProductsModal show={isModalOpen} setShow={setIsModalOpen} onProductAdded={fetchProducts} editingProduct={editingProduct} setEditingProduct={setEditingProduct} />
       </main>
     </div>
   );

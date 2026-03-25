@@ -92,7 +92,7 @@ export default function SalesChart() {
             <span className="text-sm font-medium">Redução</span>
           </div>
           <div className="mt-4">
-            <p className="text-xs text-gray-500">Moeda: R$ (BRL)</p>
+            <p className="text-xs text-gray-700">Moeda: R$ (BRL)</p>
           </div>
         </div>
       </div>

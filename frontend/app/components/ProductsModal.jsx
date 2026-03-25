@@ -13,6 +13,7 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
     other_category: "",
     expiration_date: "",
     image: "",
+    price: "",
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -23,6 +24,29 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  // ✅ Formatação de moeda
+  const formatCurrency = (value) => {
+    if (!value) return "";
+
+    const number = String(value).replace(/\D/g, "");
+    const float = Number(number) / 100;
+
+    return float.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
+
+  // ✅ Handle específico do preço
+  const handlePriceChange = (e) => {
+    const formatted = formatCurrency(e.target.value);
+
+    setFormData((prev) => ({
+      ...prev,
+      price: formatted,
+    }));
+  };
 
   // ✅ Carregar dados ao editar
   useEffect(() => {
@@ -36,6 +60,7 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
         other_category: editingProduct.other_category || "",
         expiration_date: editingProduct.expiration_date || "",
         image: editingProduct.image || "",
+        price: editingProduct.price ? formatCurrency(editingProduct.price) : "",
       });
     } else {
       setFormData({
@@ -47,39 +72,39 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
         other_category: "",
         expiration_date: "",
         image: "",
+        price: "",
       });
     }
   }, [editingProduct, show]);
 
   if (!show) return null;
 
-  // ✅ Submit Corrigido para Multipart/Form-Data
+  // ✅ Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    // 1. Criamos o FormData (necessário para arquivos binários)
     const data = new FormData();
 
-    // 2. Adicionamos os campos textuais
     data.append("name", formData.name);
     data.append("cod_bar", formData.cod_bar);
     data.append("description", formData.description);
     data.append("quantity", formData.quantity);
 
-    // Lógica de categoria (mesma que você usou no payload)
     const finalCategory = formData.category === "others" ? formData.other_category : formData.category;
-    data.append("category", finalCategory);
 
+    data.append("category", finalCategory);
     data.append("expiration_date", formData.expiration_date);
 
-    // 3. Adicionamos a imagem se ela existir
+    // ✅ Converter preço para número
+    const rawPrice = formData.price.replace("R$", "").replace(/\./g, "").replace(",", ".").trim();
+
+    data.append("price", rawPrice);
+
     if (selectedFile) {
-      data.append("image", selectedFile); // Corrigido de 'appped' para 'append'
+      data.append("image", selectedFile);
     } else if (editingProduct && formData.image) {
-      // Se está editando e não selecionou nenhum novo arquivo (imagem)
-      // envie o nome da imagem atual (string) para o backend manter a mesma
       data.append("image", formData.image);
     }
 
@@ -90,17 +115,14 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
 
     try {
       const response = await fetch(url, {
-        method: method,
-        // ⚠️ IMPORTANTE: NÃO defina 'Content-Type' aqui.
-        // O navegador definirá automaticamente como 'multipart/form-data' com o boundary correto.
+        method,
         body: data,
       });
 
       if (response.ok) {
         setMessage(isEditing ? "Produto atualizado com sucesso!" : "Produto cadastrado com sucesso!");
-        onProductAdded();
 
-        // Limpar o arquivo selecionado após sucesso
+        onProductAdded();
         setSelectedFile(null);
 
         setTimeout(() => {
@@ -118,17 +140,14 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
     }
   };
 
-  // ✅ Fechar modal
   const handleClose = () => {
     setEditingProduct(null);
     setShow(false);
   };
 
-  // ✅ HandleChange com limpeza inteligente
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // 👇 Se mudar categoria e NÃO for others → limpa other_category
     if (name === "category" && value !== "others") {
       setFormData((prev) => ({
         ...prev,
@@ -153,22 +172,14 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="border p-2 rounded-md border-[#ccc]"
-            type="text"
-            placeholder="Insira o Nome do Produto"
-            required
-          />
+          <input name="name" value={formData.name} onChange={handleChange} className="border p-2 rounded-md border-[#ccc]" type="text" placeholder="Nome do Produto" required />
 
           <input
             name="cod_bar"
             value={formData.cod_bar}
             onChange={handleChange}
             type="number"
-            placeholder="Insira o Código de Barras"
+            placeholder="Código de Barras"
             className="border p-2 rounded-md border-[#ccc]"
             required
           />
@@ -180,7 +191,7 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
             maxLength={100}
             className="border p-2 rounded-md border-[#ccc]"
             type="text"
-            placeholder="Descreva brevemente o produto"
+            placeholder="Descrição"
           />
 
           <input
@@ -189,7 +200,18 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
             onChange={handleChange}
             className="border p-2 rounded-md border-[#ccc]"
             type="number"
-            placeholder="Quantidade em Estoque"
+            placeholder="Quantidade"
+            required
+          />
+
+          {/* 💰 PREÇO */}
+          <input
+            name="price"
+            value={formData.price}
+            onChange={handlePriceChange}
+            type="text"
+            placeholder="Preço (R$ 0,00)"
+            className="border p-2 rounded-md border-[#ccc]"
             required
           />
 
@@ -203,42 +225,27 @@ export default function ProductsModal({ show, setShow, onProductAdded, editingPr
             <option value="others">Outros</option>
           </select>
 
-          {/* ✅ Campo condicional */}
           {formData.category === "others" && (
             <input
               name="other_category"
               value={formData.other_category}
               onChange={handleChange}
               type="text"
-              placeholder="Qual a outra categoria?"
+              placeholder="Outra categoria"
               className="border p-2 rounded-md border-[#ccc]"
               required
-              autoFocus
             />
           )}
 
           <input name="expiration_date" value={formData.expiration_date} onChange={handleChange} className="border p-2 rounded-md border-[#ccc]" type="date" />
 
-          <input
-            name="image"
-            type="file"
-            accept="image/*" // Aceita apenas imagens
-            onChange={handleFileChange}
-            className="border p-2 rounded-md border-[#ccc] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-          />
+          <input name="image" type="file" accept="image/*" onChange={handleFileChange} className="border p-2 rounded-md border-[#ccc]" />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-emerald-500 rounded-xl font-bold py-3 w-[200px] 
-                       self-center text-white hover:bg-emerald-400 
-                       disabled:bg-gray-400 transition-colors"
-          >
+          <button type="submit" disabled={loading} className="bg-emerald-500 rounded-xl font-bold py-3 w-[200px] self-center text-white hover:bg-emerald-400 disabled:bg-gray-400">
             {loading ? "Enviando..." : editingProduct ? "Atualizar Produto" : "Cadastrar Produto"}
           </button>
         </form>
 
-        {/* ✅ Mensagem dinâmica */}
         {message && <p className={`text-center mt-2 ${message.includes("Erro") ? "text-red-500" : "text-emerald-600"}`}>{message}</p>}
       </div>
     </div>

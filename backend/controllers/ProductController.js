@@ -25,13 +25,15 @@ const ProductController = {
 
   store(req, res) {
     try {
-      const { name, cod_bar, description, quantity, category, expiration_date } = req.body;
+      const { name, cod_bar, description, quantity, category, expiration_date, price } = req.body;
       const image = req.file ? req.file.filename : null;
 
-      const sql = `INSERT INTO products (name, cod_bar, description, quantity, category, expiration_date, image) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      const sql = `INSERT INTO products 
+      (name, cod_bar, description, quantity, category, expiration_date, image, price) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-      const result = db.prepare(sql).run(name, cod_bar, description, quantity, category, expiration_date, image);
+      const result = db.prepare(sql).run(name, cod_bar, description, quantity, category, expiration_date, image, price);
+
       res.status(201).json({ id: result.lastInsertRowid });
     } catch (err) {
       if (err.message.includes("UNIQUE constraint failed")) {
@@ -46,11 +48,16 @@ const ProductController = {
   update(req, res) {
     try {
       const { id } = req.params;
-      const { name, cod_bar, description, quantity, category, expiration_date, image: bodyImage } = req.body;
+      const { name, cod_bar, description, quantity, category, expiration_date, price, image: bodyImage } = req.body;
+
       let finalImage = req.file ? req.file.filename : bodyImage;
 
-      const sql = `UPDATE products SET name=?, cod_bar=?, description=?, quantity=?, category=?, expiration_date=?, image=? WHERE id=?`;
-      db.prepare(sql).run(name, cod_bar, description, quantity, category, expiration_date, finalImage, id);
+      const sql = `UPDATE products SET 
+      name=?, cod_bar=?, description=?, quantity=?, category=?, expiration_date=?, image=?, price=? 
+      WHERE id=?`;
+
+      db.prepare(sql).run(name, cod_bar, description, quantity, category, expiration_date, finalImage, price, id);
+
       res.json({ message: "Produto atualizado com sucesso!" });
     } catch (err) {
       if (err.message.includes("UNIQUE constraint failed")) {
