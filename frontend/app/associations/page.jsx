@@ -109,23 +109,23 @@ export default function Page() {
   const notAssociatedCount = products.filter((p) => p.suppliers.length === 0).length;
 
   return (
-    <div className="page-wrapper flex h-screen w-full bg-gray-100">
+    <div className="page-wrapper flex h-screen w-full bg-fff">
       <Aside />
 
       <main className="flex-1 py-6 px-10 overflow-y-auto">
         <nav className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-800">Associações</h1>
-          <p className="text-gray-500">Associe produtos aos fornecedores</p>
+          <h1 className="text-2xl font-bold text-gray-800">Vínculo de Produto</h1>
+          <p className="text-gray-500">Vincule produtos aos fornecedores</p>
         </nav>
 
         <div className="assoc-stats-grid grid grid-cols-2 gap-6 mb-8">
-          <div className="border-b-4 border-emerald-500 py-8 px-6 bg-white shadow-sm rounded-xl">
-            <p className="text-gray-500 text-sm">Produtos Associados</p>
+          <div className="border-b-4 border-emerald-500 py-8 px-6 bg-white shadow-sm">
+            <p className="text-gray-500 text-sm">Produtos Vinculados</p>
             <h2 className="text-3xl text-emerald-500 font-bold">{associatedCount}</h2>
           </div>
 
-          <div className="border-b-4 border-yellow-500 py-8 px-6 bg-white shadow-sm rounded-xl">
-            <p className="text-gray-500 text-sm">Sem Associação</p>
+          <div className="border-b-4 border-yellow-500 py-8 px-6 bg-white shadow-sm">
+            <p className="text-gray-500 text-sm">Sem Vínculo</p>
             <h2 className="text-3xl text-yellow-500 font-bold">{notAssociatedCount}</h2>
           </div>
         </div>

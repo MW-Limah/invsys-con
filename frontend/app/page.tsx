@@ -3,7 +3,10 @@
 
 import { useState, useEffect } from "react";
 import Aside from "@/components/Aside";
-import DoughnutChart from "./components/charts/Doughnut";
+import { FaPeopleGroup, FaCartShopping, FaPeopleCarryBox } from "react-icons/fa6";
+import { FiAlertTriangle } from "react-icons/fi";
+import { FaBoxes } from "react-icons/fa";
+import { MdAttachMoney } from "react-icons/md";
 
 export default function Home() {
   const [suppliers, setSuppliers] = useState([]);
@@ -35,40 +38,88 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="page-wrapper flex w-full h-full">
+    <div className="page-wrapper flex w-full h-full min-h-screen bg-gray-50">
       <Aside />
 
       <main className="flex-1 py-6 px-10 overflow-y-auto">
-        <h1 className="text-3xl mb-1 font-bold">Bem-vindo ao OptiGest</h1>
-        <p className="text-xl">Sistema de Gestão de Estoque</p>
-        <div className="home-grid mt-4 grid grid-cols-3 gap-4">
-          <div className="home-stats col-span-2 flex flex-col gap-4">
-            <div className="py-8 px-6 bg-white shadow-lg rounded-xl hover:scale-101 transition-transform duration-300 ease-in-out border-2 border-gray-200">
-              <p className="text-gray-600 text-md font-medium">Total de produtos</p>
-              <h2 className="text-3xl font-bold mt-4 text-gray-900">{products.length}</h2>
-            </div>
+        <h1 className="text-2xl mb-1 font-bold">Dashboard</h1>
+        <p className="text-gray-600 mb-6">Aqui está a visão geral do seu negócio</p>
 
-            <div
-              className="
-                py-6 md:py-8 px-5 md:px-6
-                bg-white shadow-lg rounded-xl
-                hover:scale-[1.02]
-                transition-transform duration-300 ease-in-out
-                border-2 border-gray-200
-              "
-            >
-              <p className="text-gray-600 text-sm md:text-md font-medium">Total de fornecedores</p>
-              <h2 className="text-2xl md:text-3xl font-bold mt-3 text-gray-900">{suppliers.length}</h2>
+        {/* Grid ajustado para 3 colunas */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Card: Total de Clientes (Exemplo, já que não estava no seu state) */}
+          <div className="py-4 px-6 bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start">
+              <p className="text-gray-600 font-medium">Total de Clientes</p>
+              <span className="text-xl">
+                <FaPeopleGroup />
+              </span>
             </div>
+            <h2 className="text-2xl font-bold mt-4 text-gray-900">15</h2>
           </div>
 
-          <div className="home-chart col-span-1">
-            <div className="py-8 px-6 bg-white shadow-lg rounded-xl hover:scale-101 transition-transform transition-all duration-200 ease-in-out border-2 border-gray-200 h-full">
-              <p className="text-gray-600 text-md font-medium">Produtos Associados / Não Associados</p>
+          {/* Card: Receita Total */}
+          <div className="py-4 px-6 bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start">
+              <p className="text-gray-600 font-medium">Receita Total Atual</p>
+              <span className="text-xl">
+                <MdAttachMoney />
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold mt-4 text-gray-900">R$ 2.400,00</h2>
+            <p className="text-[10px] text-gray-400 mt-2 text-right">Atualizado em 25/03/2026</p>
+          </div>
 
-              <div className="mt-4 md:mt-6">
-                <DoughnutChart />
+          {/* Card: Produtos */}
+          <div className="py-4 px-6 bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start">
+              <p className="text-gray-600 font-medium">Produtos</p>
+              <span className="text-xl">
+                <FaBoxes />
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold mt-4 text-gray-900">{products.length}</h2>
+            <p className="text-xs text-gray-400 mt-1">Itens cadastrados</p>
+          </div>
+
+          {/* Card: Total de Vendas */}
+          <div className="py-4 px-6 bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start">
+              <p className="text-gray-600 font-medium">Total de Vendas</p>
+              <span className="text-xl">
+                <FaCartShopping />
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold mt-4 text-gray-900">250</h2>
+          </div>
+
+          {/* Card: Fornecedores */}
+          <div className="py-4 px-6 bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+            <div className="flex justify-between items-start">
+              <p className="text-gray-600 font-medium">Fornecedores</p>
+              <span className="text-xl">
+                <FaPeopleCarryBox />
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold mt-4 text-gray-900">{suppliers.length}</h2>
+          </div>
+
+          {/* Card: Estoque Baixo */}
+          <div className="py-4 px-6 bg-white shadow-sm rounded-xl border border-gray-200 hover:shadow-md transition-shadow flex flex-col justify-between">
+            <div className="flex flex-row items-start justify-between">
+              <div>
+                <p className="text-gray-600 font-medium">Estoque Baixo</p>
+                <h2 className="text-2xl font-bold mt-2 text-gray-900">2</h2>
               </div>
+              <div>
+                <span className="text-xl">
+                  <FiAlertTriangle />
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mt-4 gap-2">
+              <p className="text-[10px] text-gray-400">Você tem produtos com estoque baixo!</p>
+              <button className="bg-black text-white text-xs py-2 px-3 rounded-lg hover:bg-gray-800 transition-colors">Ver produtos</button>
             </div>
           </div>
         </div>

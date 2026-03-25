@@ -106,7 +106,7 @@ export default function AssociationsModal({ show, setShow, product, refresh }) {
             </button>
 
             <button type="submit" className="flex-1 bg-emerald-500 text-white font-bold py-3 rounded-xl hover:bg-emerald-600 transition-colors">
-              Criar Associação
+              Criar Vínculo
             </button>
           </div>
         </form>

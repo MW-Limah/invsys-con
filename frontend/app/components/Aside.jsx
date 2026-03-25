@@ -11,7 +11,7 @@ const pages = [
   { page: "/", icon: FaHome, label: "Visão geral" },
   { page: "/products", icon: FaBoxes, label: "Produtos" },
   { page: "/suppliers", icon: FaTruckLoading, label: "Fornecedores" },
-  { page: "/associations", icon: FaPeopleCarryBox, label: "Associações" },
+  { page: "/associations", icon: FaPeopleCarryBox, label: "Vínculo de Produtos" },
 ];
 
 export default function Aside() {
@@ -33,13 +33,13 @@ export default function Aside() {
         bg-white text-[#2d2d2d]
 
         border-t md:border-t-0
-        md:border-r-2 border-[#ddd]
+        md:border-r-2 border-[#eee]
         z-50
       "
     >
       {/* Logo (somente desktop/tablet) */}
       <h2 className="hidden md:block text-4xl border-b-2 border-[#ddd] mb-5 pb-3 w-full">
-        <Image className="py-4" src="/logo.png" width={180} height={80} alt="logo" />
+        <Image className="py-4" src="/logo.png" width={200} height={80} alt="logo" />
       </h2>
 
       {/* Menu */}
