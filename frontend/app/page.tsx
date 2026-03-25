@@ -7,6 +7,7 @@ import { FaPeopleGroup, FaCartShopping, FaPeopleCarryBox } from "react-icons/fa6
 import { FiAlertTriangle } from "react-icons/fi";
 import { FaBoxes } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
+import BarChart from "./components/charts/Bar";
 
 export default function Home() {
   const [suppliers, setSuppliers] = useState([]);
@@ -123,6 +124,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <section className="mt-4">
+          <BarChart />
+        </section>
       </main>
     </div>
   );
