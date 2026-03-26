@@ -5,8 +5,12 @@ import { FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import ProductsModal from "../components/ProductsModal";
 import { useState, useEffect } from "react";
+import OpenedImage from "./img/OpenedImg";
 
 export default function Page() {
+  /* 
+  const [isImageOpen, setIsImageOpen] = useState(false); */
+  const [selectedImage, setSelectedImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -106,13 +110,16 @@ export default function Page() {
                       {Number(product.price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                     </td>
                     <td data-label="Categoria" className="px-6 py-4">
-                      <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">{product.category}</span>
+                      <span className="flex flex-col justify-start bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">{product.category}</span>
                     </td>
-                    <td data-label="Validade" className="px-6 py-4 text-gray-500">
+                    <td data-label="Validade" className="w-[150px] px-6 py-4 text-gray-500">
                       {product.expiration_date || "-"}
                     </td>
                     <td data-label="Foto" className="px-1 py-4">
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200 ml-auto">
+                      <div
+                        className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200 ml-auto cursor-pointer hover:scale-110 transition-transform"
+                        onClick={() => setSelectedImage(product.image ? `/uploads/${product.image}` : "/placeholder.jpg")}
+                      >
                         <Image src={product.image ? `/uploads/${product.image}` : "/placeholder.jpg"} alt={product.name} fill className="object-cover" />
                       </div>
                     </td>
@@ -137,6 +144,7 @@ export default function Page() {
         </section>
 
         <ProductsModal show={isModalOpen} setShow={setIsModalOpen} onProductAdded={fetchProducts} editingProduct={editingProduct} setEditingProduct={setEditingProduct} />
+        {selectedImage && <OpenedImage srcImage={selectedImage} onClose={() => setSelectedImage(null)} />}
       </main>
     </div>
   );
