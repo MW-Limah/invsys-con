@@ -109,7 +109,7 @@ export default function Page() {
   const notAssociatedCount = products.filter((p) => p.suppliers.length === 0).length;
 
   return (
-    <div className="page-wrapper flex h-screen w-full bg-fff">
+    <div className="page-wrapper flex h-screen w-full ">
       <Aside />
 
       <main className="flex-1 py-6 px-10 overflow-y-auto">
@@ -119,14 +119,14 @@ export default function Page() {
         </nav>
 
         <div className="assoc-stats-grid grid grid-cols-2 gap-6 mb-8">
-          <div className="border-b-4 border-emerald-500 py-8 px-6 bg-white shadow-sm">
+          <div className="border-b-4 border-black border-emerald-500 py-8 px-6 bg-white shadow-md rounded-t-xl">
             <p className="text-gray-500 text-sm">Produtos Vinculados</p>
-            <h2 className="text-3xl text-emerald-500 font-bold">{associatedCount}</h2>
+            <h2 className="text-3xl font-bold mt-2 text-emerald-500">{associatedCount}</h2>
           </div>
 
-          <div className="border-b-4 border-yellow-500 py-8 px-6 bg-white shadow-sm">
+          <div className="border-b-4 border-yellow-500 py-8 px-6 bg-white shadow-md rounded-t-xl">
             <p className="text-gray-500 text-sm">Sem Vínculo</p>
-            <h2 className="text-3xl text-yellow-500 font-bold">{notAssociatedCount}</h2>
+            <h2 className="text-3xl mt-2 text-yellow-500 font-bold">{notAssociatedCount}</h2>
           </div>
         </div>
 

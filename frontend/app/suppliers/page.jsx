@@ -63,7 +63,7 @@ export default function Page() {
           </button>
         </nav>
         <section>
-          <div className="flex gap-6 mb-8 shadow-md">
+          <div className="flex gap-6 mb-8 shadow-md  rounded-t-xl">
             <div className="w-full border-b-4 border-black py-8 px-6 bg-white shadow-md rounded-t-xl">
               <p className="text-gray-500 text-sm font-medium">Total de fornecedores</p>
               <h2 className="text-3xl font-bold mt-2 text-gray-900">{suppliers.length}</h2>
@@ -86,12 +86,24 @@ export default function Page() {
               <tbody className="divide-y divide-gray-100">
                 {suppliers.map((supplier) => (
                   <tr key={supplier.id} className="group hover:bg-gray-50 transition-colors">
-                    <td data-label="Empresa" className="px-6 py-4 text-gray-900 text-sm font-medium">{supplier.name_enterprise}</td>
-                    <td data-label="CNPJ" className="px-6 py-4 text-gray-500 text-sm font-mono">{supplier.cnpj}</td>
-                    <td data-label="Endereço" className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">{supplier.address}</td>
-                    <td data-label="Telefone" className="px-6 py-4 text-gray-500 text-sm">{supplier.phone}</td>
-                    <td data-label="E-mail" className="px-6 py-4 text-gray-500 text-sm">{supplier.email}</td>
-                    <td data-label="Contato" className="px-6 py-4 text-gray-900 text-sm">{supplier.main_contact}</td>
+                    <td data-label="Empresa" className="px-6 py-4 text-gray-900 text-sm font-medium">
+                      {supplier.name_enterprise}
+                    </td>
+                    <td data-label="CNPJ" className="px-6 py-4 text-gray-500 text-sm font-mono">
+                      {supplier.cnpj}
+                    </td>
+                    <td data-label="Endereço" className="px-6 py-4 text-gray-500 text-sm max-w-xs truncate">
+                      {supplier.address}
+                    </td>
+                    <td data-label="Telefone" className="px-6 py-4 text-gray-500 text-sm">
+                      {supplier.phone}
+                    </td>
+                    <td data-label="E-mail" className="px-6 py-4 text-gray-500 text-sm">
+                      {supplier.email}
+                    </td>
+                    <td data-label="Contato" className="px-6 py-4 text-gray-900 text-sm">
+                      {supplier.main_contact}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-3">
                         <button

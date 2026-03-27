@@ -56,7 +56,7 @@ export default function Page() {
   };
 
   return (
-    <div className="page-wrapper flex h-screen w-full bg-gray-50">
+    <div className="page-wrapper flex h-screen w-full">
       <Aside />
       <main className="flex-1 py-6 px-10 overflow-y-auto">
         <nav className="page-nav flex w-full justify-between items-center mb-8">

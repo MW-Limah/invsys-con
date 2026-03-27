@@ -58,7 +58,7 @@ const defaultOptions: ChartOptions<"bar"> = {
 
 export default function SalesChart() {
   return (
-    <div className="w-auto p-8 bg-[#f9fafb] border border-gray-200 rounded-2xl font-sans text-gray-800">
+    <div className="w-auto p-8 border border-gray-200 rounded-2xl font-sans text-gray-800">
       {/* Header do Card */}
       <div className="flex justify-between items-start mb-8">
         <div className="flex flex-col gap-2">
