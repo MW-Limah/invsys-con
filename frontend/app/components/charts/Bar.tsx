@@ -62,13 +62,13 @@ export default function SalesChart() {
       {/* Header do Card */}
       <div className="flex justify-between items-start mb-8">
         <div className="flex flex-col gap-2">
-          <h2 className="text-xl font-bold text-gray-800">Vendas (Anual)</h2>
-          <p className="text-sm text-gray-500">Acompanhe a trajetória de suas vendas</p>
+          <h2 className="text-xl font-bold text-gray-800">Progresso da Renda</h2>
+          <p className="text-sm text-gray-500">Acompanhe a trajetória da sua renda.</p>
         </div>
 
         <div className="flex flex-col items-start gap-2">
           <label className="text-xs font-medium text-gray-600">Selecionar período</label>
-          <select className="bg-gray-200 border-none rounded-md px-6 py-1.5 text-sm outline-none cursor-pointer hover:bg-gray-300 transition-colors">
+          <select className="border-1 border-gray-300 rounded-md px-6 py-1.5 text-sm outline-none cursor-pointer hover:bg-gray-100 transition-colors">
             <option>Anual</option>
             <option>Mensal</option>
           </select>
